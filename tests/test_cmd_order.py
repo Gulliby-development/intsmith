@@ -215,3 +215,38 @@ def test_order_validation_preserves_exact_precedence_and_messages(
     argv: list[str], expected_message: str
 ) -> None:
     assert_failure(argv, expected_message)
+
+
+@pytest.mark.parametrize(
+    ("argv", "expected", "expected_status"),
+    [
+        (
+            ["--roots", "3", "7"],
+            "residue   3\nphi       6\norder     6\nsmallest  3\nroots     2\n",
+            0,
+        ),
+        (
+            ["3", "--roots", "8"],
+            "residue   3\nphi       4\norder     2\nsmallest  none\nroots     0\n",
+            0,
+        ),
+        (
+            ["--roots", "4", "8"],
+            "residue   4\nphi       4\nstatus    not a unit (gcd 4)\nroots     0\n",
+            1,
+        ),
+        (
+            ["--roots", "2", "9"],
+            "residue   2\nphi       6\norder     6\nsmallest  2\nroots     2\n",
+            0,
+        ),
+    ],
+)
+def test_order_roots_answers_are_exact(
+    argv: list[str], expected: str, expected_status: int
+) -> None:
+    assert_answer(argv, expected, expected_status)
+
+
+def test_order_roots_flag_rejects_value() -> None:
+    assert_failure(["--roots=1", "3", "7"], "--roots takes no value")
