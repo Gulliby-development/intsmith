@@ -77,7 +77,7 @@ minus1    29718 3805
 - `prime test|next|prev N` tests primality or finds the next or previous prime; `prime list LO HI` lists primes in an inclusive range.
 - `factor N...` prints prime factorizations for one or more positive integers. Use `-` as the only number argument to read whitespace-separated numbers from standard input.
 - `funcs [--divisors] N` reports arithmetic functions and number classifications; `--divisors` also lists the divisors.
-- `order A N` reports the multiplicative order of a unit modulo N, along with the smallest primitive root when one exists.
+- `order A N` reports the multiplicative order of a unit modulo N, along with the smallest primitive root when one exists. `order --roots A N` also prints a `roots` line with the number of primitive roots modulo N (0 when there are none).
 - `sqrt A P` reports the Legendre symbol and square roots of `A` modulo the prime P, or indicates that there is no root.
 - `dlog G H M` finds the smallest discrete logarithm of `H` to base `G` modulo M, when one exists.
 - `cfrac frac P Q`, `cfrac sqrt [--terms T] D`, and `cfrac pell D` compute a rational continued fraction and convergents, terms of a square-root continued fraction, or Pell equation solutions.
