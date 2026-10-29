@@ -44,7 +44,7 @@ def assert_main_result(
 EXPECTED_USAGE = """usage: intsmith gcd A B
        intsmith crt R:M...
        intsmith prime test|next|prev N
-       intsmith prime list LO HI
+       intsmith prime list [--count] LO HI
        intsmith factor N...
        intsmith funcs [--divisors] N
        intsmith order A N

@@ -1,7 +1,7 @@
 """Prime command adapter with bounded inclusive list enumeration."""
 
 from intsmith.core.ints import parse_int
-from intsmith.core.options import parse
+from intsmith.core.options import flag, parse
 from intsmith.core.text import BIG, Failure, show
 from intsmith.core.words import Io
 from intsmith.nt.primes import is_prime, next_prime, prev_prime
@@ -16,7 +16,8 @@ def run(argv: list[str], io: Io) -> int:
     if mode not in ("test", "next", "prev", "list"):
         raise Failure(f"unknown mode {show(mode)} (expected test, next, prev or list)")
 
-    args = parse(argv[1:], []).args
+    parsed = parse(argv[1:], [flag("--count")] if mode == "list" else [])
+    args = parsed.args
     names = ["LO", "HI"] if mode == "list" else ["N"]
     if len(args) < len(names):
         raise Failure(f"missing {names[len(args)]}")
@@ -33,7 +34,8 @@ def run(argv: list[str], io: Io) -> int:
 
         primes = [candidate for candidate in range(low, high + 1) if is_prime(candidate)]
         output = f"primes from {low} to {high}: {len(primes)}\n"
-        output += "".join(f"{prime}\n" for prime in primes)
+        if not parsed.values["--count"]:
+            output += "".join(f"{prime}\n" for prime in primes)
         io.out(output)
         return 0
 
