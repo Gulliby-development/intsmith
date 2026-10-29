@@ -22,7 +22,7 @@ Replace `COMMAND` with one of the command forms below.
 usage: intsmith gcd A B
        intsmith crt R:M...
        intsmith prime test|next|prev N
-       intsmith prime list LO HI
+       intsmith prime list [--count] LO HI
        intsmith factor N...
        intsmith funcs [--divisors] N
        intsmith order A N
@@ -45,6 +45,8 @@ lcm       53040
 bezout    x=2753 y=-15
 inverse   2753
 ```
+
+To count the primes in a range without listing them, run `python -m intsmith prime list --count 10 30`, which prints the single line `primes from 10 to 30: 6`.
 
 The Chinese remainder theorem example is `python -m intsmith crt 2:3 3:5 2:7`:
 
@@ -74,7 +76,7 @@ minus1    29718 3805
 
 - `gcd A B` reports the greatest common divisor, least common multiple, a Bezout pair, and an inverse when one exists.
 - `crt R:M...` solves a system of one or more congruences, or reports that the system has no solution.
-- `prime test|next|prev N` tests primality or finds the next or previous prime; `prime list LO HI` lists primes in an inclusive range.
+- `prime test|next|prev N` tests primality or finds the next or previous prime; `prime list [--count] LO HI` lists primes in an inclusive range, or with `--count` prints only the header line with their number.
 - `factor N...` prints prime factorizations for one or more positive integers. Use `-` as the only number argument to read whitespace-separated numbers from standard input.
 - `funcs [--divisors] N` reports arithmetic functions and number classifications; `--divisors` also lists the divisors.
 - `order A N` reports the multiplicative order of a unit modulo N, along with the smallest primitive root when one exists. `order --roots A N` also prints a `roots` line with the number of primitive roots modulo N (0 when there are none).
