@@ -16,7 +16,7 @@ def run(argv: list[str], io: Io) -> int:
     if mode not in ("test", "next", "prev", "list"):
         raise Failure(f"unknown mode {show(mode)} (expected test, next, prev or list)")
 
-    parsed = parse(argv[1:], [flag("--count")] if mode == "list" else [])
+    parsed = parse(argv[1:], [flag("--count"), flag("--twin")] if mode == "list" else [])
     args = parsed.args
     names = ["LO", "HI"] if mode == "list" else ["N"]
     if len(args) < len(names):
@@ -31,6 +31,18 @@ def run(argv: list[str], io: Io) -> int:
             raise Failure("HI must not be below LO")
         if high - low > 10000:
             raise Failure("HI - LO must be at most 10000")
+
+        if parsed.values["--twin"]:
+            pairs = [
+                (candidate, candidate + 2)
+                for candidate in range(low, high - 1)
+                if is_prime(candidate) and is_prime(candidate + 2)
+            ]
+            output = f"twin primes from {low} to {high}: {len(pairs)}\n"
+            if not parsed.values["--count"]:
+                output += "".join(f"{first} {second}\n" for first, second in pairs)
+            io.out(output)
+            return 0
 
         primes = [candidate for candidate in range(low, high + 1) if is_prime(candidate)]
         output = f"primes from {low} to {high}: {len(primes)}\n"
